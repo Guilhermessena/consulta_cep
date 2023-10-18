@@ -102,6 +102,16 @@ class _ConsultaCepPageState extends State<ConsultaCepPage> {
                                     if (context.mounted) {
                                       Navigator.pop(context);
                                     }
+                                    FocusManager.instance.primaryFocus
+                                        ?.unfocus();
+                                    if (context.mounted) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content: Text("Salvo com sucesso"),
+                                        ),
+                                      );
+                                    }
                                   },
                                   child: const Text("Salvar"),
                                 ),
@@ -110,12 +120,29 @@ class _ConsultaCepPageState extends State<ConsultaCepPage> {
                           },
                         );
                       }
+                    } else {
+                      FocusManager.instance.primaryFocus?.unfocus();
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Cep já registrado"),
+                          ),
+                        );
+                      }
                     }
                   } else {
                     cepController.clear();
                     setState(() {
                       loading = false;
                     });
+                    FocusManager.instance.primaryFocus?.unfocus();
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Cep não existe"),
+                          ),
+                        );
+                      }
                   }
                 }
               },
@@ -127,12 +154,25 @@ class _ConsultaCepPageState extends State<ConsultaCepPage> {
               viaCep.logradouro ?? "",
               style: const TextStyle(
                 fontSize: 22,
+                fontWeight: FontWeight.w500
               ),
             ),
             Text(
               '${viaCep.localidade ?? ''} - ${viaCep.uf ?? ''}',
               style: const TextStyle(
-                fontSize: 22,
+                fontSize: 20,
+              ),
+            ),
+            Text(
+              viaCep.cep ?? "",
+              style: const TextStyle(
+                fontSize: 20,
+              ),
+            ),
+            Text(
+              viaCep.bairro ?? "",
+              style: const TextStyle(
+                fontSize: 20,
               ),
             ),
             Visibility(
