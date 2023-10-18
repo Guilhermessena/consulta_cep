@@ -144,14 +144,6 @@ class ViaCep {
     }
   }
 
-  ViaCep.atualizar({
-    String? logradouro,
-  }) {
-    if (logradouro != null) {
-      _logradouro = logradouro;
-    }
-  }
-
   String? get objectId => _objectId;
   set objectId(String? objectId) => _objectId = objectId;
   String? get cep => _cep;
