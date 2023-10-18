@@ -8,10 +8,22 @@ class ViaCepRepository {
 
   Future<ViaCep> consultarCep(String cep) async {
     var url = "/Cep";
-    url = '$url?where={"cep":$cep}';
+    url = '$url?where={"cep":"$cep"}';
+    var result = await _customDio.dio.get(url);
+    if (result.data['results'].isNotEmpty) {
+      var resultFromJson = ViaCep.fromJson(result.data['results'][0]);
+      if (resultFromJson.objectId != null) {
+        return resultFromJson;
+      }
+    }
+    return ViaCep.vazio();
+  }
+
+  Future<ViaCeps> consultarCeps() async {
+    var url = "/Cep";
 
     var result = await _customDio.dio.get(url);
-    return ViaCep.fromJson(result.data);
+    return ViaCeps.fromJson(result.data);
   }
 
   Future<void> salvarCep(ViaCep cep) async {
@@ -24,7 +36,8 @@ class ViaCepRepository {
 
   Future<void> atualizarCep(ViaCep cep) async {
     try {
-      await _customDio.dio.put("/Cep/${cep.objectId}", data: cep.toCreateJson());
+      await _customDio.dio
+          .put("/Cep/${cep.objectId}", data: cep.toUpdateJson());
     } catch (e) {
       throw e;
     }

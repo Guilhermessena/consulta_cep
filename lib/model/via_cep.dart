@@ -98,6 +98,8 @@ class ViaCep {
     }
   }
 
+  ViaCep.vazio();
+
   ViaCep.create({
     String? cep,
     String? logradouro,
@@ -139,6 +141,14 @@ class ViaCep {
     }
     if (siafi != null) {
       _siafi = siafi;
+    }
+  }
+
+  ViaCep.atualizar({
+    String? logradouro,
+  }) {
+    if (logradouro != null) {
+      _logradouro = logradouro;
     }
   }
 
@@ -215,6 +225,12 @@ class ViaCep {
     data['gia'] = _gia;
     data['ddd'] = _ddd;
     data['siafi'] = _siafi;
+    return data;
+  }
+
+  Map<String, dynamic> toUpdateJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['logradouro'] = _logradouro;
     return data;
   }
 }
